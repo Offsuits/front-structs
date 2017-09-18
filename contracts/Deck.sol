@@ -2,16 +2,17 @@ pragma solidity ^0.4.2;
 
 contract Deck {
 
-	mapping (uint => Card) deck;
-    mapping (uint => Player) players;
+    mapping (int => Card) deck;
+    mapping (int => Player) players;
     Game game;
-    event SendStack(int chips, uint seat);
-    event Deal();
+    event SendStack(int chips, int seat);
+    event Deal(int first);
+    event AdvanceRound(int action);
 
 
     struct Card {
         string card;
-        uint rank;
+        int rank;
     }
 
     struct Player {
@@ -23,74 +24,93 @@ contract Deck {
 
     struct Game {
         int pot;
-        uint action;
-        uint raiser;
-        uint dealer;
+        int action;
+        int raiser;
+        int dealer;
         int amountToCall;
     }
 
-    function sitDown(uint seat, int chips) {
+    function getGameState() constant returns(int) {
+        return game.action;
+    }
+
+    function sitDown(int seat, int chips) {
         players[seat].active = 2;
         players[seat].chips = chips;
         SendStack(players[seat].chips, seat);
     }
 
-    function standUp(uint seat) {
+    function standUp(int seat) {
         players[seat].active = 0;
         players[seat].chips = 0;
         SendStack(players[seat].chips, seat);
     }
 
-    function playerActive(uint seat) constant returns(int8) {
+    function playerActive(int seat) constant returns(int8) {
         return players[seat].active;
     }
 
     function initGame() {
         game.pot = 0;
+        var next = [1,2,3,0];
 
-        if(game.dealer == 3){
-            game.action = 1; 
-            game.dealer = 0;
-        } else {
-            game.dealer++;
-
-            if(game.dealer == 3) {
-                game.action = 0;
-            } else {
-                game.action = game.dealer + 1;
+        for(var i = 0; i < 4; i++) {
+            if(players[i].active == 1) {
+                players[i].active = 2;
             }
         }
 
-        while(players[game.action].active != 2) {
-            if(game.action == 3){
-                game.action = 0; 
-            } else {
-                game.action++;
-            }
-         
+        game.dealer = next[uint(game.dealer)];
+
+        while(players[game.dealer].active == 0) {
+            game.dealer = next[uint(game.dealer)];
         }
+
+        game.raiser = next[uint(game.dealer)];
+
+        while(players[game.raiser].active == 0) {
+            game.raiser = next[uint(game.raiser)];
+        }
+ 
+        game.action = game.raiser;
+
     }
 
     function deal() {
-        Deal();
+        initGame();
+        Deal(game.action);
     }
+
 
     function nextToAction() {
+        var next = [1,2,3,0];
+
+        game.action = next[uint(game.action)];
+
+        while(players[game.action].active != 2 && game.action != game.raiser) {
+            game.action = next[uint(game.action)];
+        }
+
+        if(game.action == game.raiser) {
+            AdvanceRound(101);
+        } else {
+            AdvanceRound(game.action);
+        }
 
     }
 
-	function calcWinner() constant returns(string) {
-        uint seat = winner();
+    function calcWinner() constant returns(string) {
+        int seat = winner();
         players[seat].chips += game.pot;
         game.pot = 0;
         SendStack(players[seat].chips, seat);
 
         return players[seat].card.card;
-	}
+    }
 
-	function winner() returns(uint) {
-		uint winner;
-        uint score = 52;
+    function winner() returns(int) {
+        int winner;
+        int score = 52;
         for(var i = 0; i < 4; i++) {
             if(players[i].active == 2 && players[i].card.rank < score) {
                 winner = i;
@@ -99,11 +119,11 @@ contract Deck {
         }
 
         return winner;
-	}
+    }
 
     
 
-    function bet(int amount, uint seat) {
+    function bet(int amount, int seat) {
         players[seat].chips = players[seat].chips - amount;
         players[seat].currentBet += amount;
         game.pot += amount;
@@ -111,15 +131,15 @@ contract Deck {
         SendStack(players[seat].chips, seat);
     }
 
-	function getCard(uint index) constant returns(string) {
-		return players[index].card.card;
-	}
+    function getCard(int index) constant returns(string) {
+        return players[index].card.card;
+    }
 
     function shuffle() {
         Card memory temp;
-        uint randCard;
+        int randCard;
 
-        for(uint i = 52; i > 0; i--) {
+        for(int i = 52; i > 0; i--) {
             randCard = rand(i);
             temp = deck[i - 1];
             deck[i - 1] = deck[randCard];
@@ -132,55 +152,55 @@ contract Deck {
     }
 
 
-	function Deck() {
-		string[] memory suits = new string[](4);
-		suits[0] = 's';
-		suits[1] = 'h';
-		suits[2] = 'c';
-		suits[3] = 'd';
+    function Deck() {
+        string[] memory suits = new string[](4);
+        suits[0] = 's';
+        suits[1] = 'h';
+        suits[2] = 'c';
+        suits[3] = 'd';
 
-		string[] memory faces = new string[](13);
-		faces[0] = 'A';
-		faces[1] = 'K';
-		faces[2] = 'Q';
-		faces[3] = 'J';
-		faces[4] = 'T';
-		faces[5] = '9';
-		faces[6] = '8';
-		faces[7] = '7';
-		faces[8] = '6';
-		faces[9] = '5';
-		faces[10] = '4';
-		faces[11] = '3';
-		faces[12] = '2';
+        string[] memory faces = new string[](13);
+        faces[0] = 'A';
+        faces[1] = 'K';
+        faces[2] = 'Q';
+        faces[3] = 'J';
+        faces[4] = 'T';
+        faces[5] = '9';
+        faces[6] = '8';
+        faces[7] = '7';
+        faces[8] = '6';
+        faces[9] = '5';
+        faces[10] = '4';
+        faces[11] = '3';
+        faces[12] = '2';
 
-		
-		uint8 deckPosition = 0;
+        
+        int deckPosition = 0;
 
-		for(uint8 i = 0; i < faces.length; i++) {
-			for(uint j = 0; j < suits.length; j++) {
+        for(var i = 0; i < faces.length; i++) {
+            for(var j = 0; j < suits.length; j++) {
                 deck[deckPosition].card = strConcat(faces[i], suits[j]);
                 deck[deckPosition].rank = deckPosition;
-				deckPosition++;
-			}
-		}
+                deckPosition++;
+            }
+        }
 
 
-        uint index = 0;
+        int index = 0;
 
         while(index < 4) {
             players[index].active = 0;
             index++;
         }
 
-          game.dealer = 0;
-	}
+        game.dealer = 3;
+    }
 
-	function rand(uint max) returns(uint) {
-		return uint(block.blockhash(block.number-1)) % max + 1;
-	}
+    function rand(int max) returns(int) {
+        return int(block.blockhash(block.number-1)) % max + 1;
+    }
 
-	function strConcat(string _a, string _b) internal returns (string){
+    function strConcat(string _a, string _b) internal returns (string){
         bytes memory _ba = bytes(_a);
         bytes memory _bb = bytes(_b);
 
@@ -192,19 +212,19 @@ contract Deck {
         for (i = 0; i < _bb.length; i++) babcde[k++] = _bb[i];
      
         return string(babcde);
-	}
+    }
 
-	function UintToString(uint v) constant returns (string) {
+    function UintToString(uint v) constant returns (string) {
       bytes32 ret;
       if (v == 0) {
         ret = '0';
       }
       else {
-	      while (v > 0) {
+          while (v > 0) {
           ret = bytes32(uint(ret) / (2 ** 8));
           ret |= bytes32(((v % 10) + 48) * 2 ** (8 * 31));
           v /= 10;
-	      }
+          }
       }
 
       bytes memory bytesString = new bytes(32);
@@ -217,12 +237,12 @@ contract Deck {
       }
 
       return string(bytesString);
-	}
+    }
 
-	// function str2Bytes32(string memory source) returns (bytes32 result) {
+    // function str2Bytes32(string memory source) returns (bytes32 result) {
  //    assembly {
  //        result := mload(add(source, 32))
  //    }
-	// }
+    // }
 
 }
