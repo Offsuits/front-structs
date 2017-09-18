@@ -9,10 +9,10 @@ class Table extends React.Component {
       pot: 0,
       active: [true, true, true, true, true, true],
       show: false,
-      name1: 'Easak Hong',
-      name2: 'Marc Perry',
-      name3: 'Abhi Bala',
-      name4: 'Scott Davis'
+      name1: 'Easakfish',
+      name2: 'MarcP[hole]',
+      name3: 'Abhishark',
+      name4: 'Whitewhale'
     };
 
     this.currSeat = 1;
@@ -24,11 +24,11 @@ class Table extends React.Component {
       <div id="table"/>
       <div className="seats">
         <div className="seat1">
-          <Person bot={true} player={this.currSeat===1} dealer={this.state.dealer===0} active={this.state.active[0]} card={this.props.seat1}
+          <Person bot={false} player={this.currSeat===1} dealer={this.state.dealer===0} active={this.state.active[0]} card={this.props.seat1}
             stack={this.props.stack1} name={this.state.name1}/>
         </div>
         <div className="seat2">
-          <Person bot={true} player={this.currSeat===2} dealer={this.state.dealer===1} active={this.state.active[1]} card={this.props.seat2}
+          <Person bot={false} player={this.currSeat===2} dealer={this.state.dealer===1} active={this.state.active[1]} card={this.props.seat2}
             stack={this.props.stack2} name={this.state.name2}/>
         </div>
         <div className="seat3">
@@ -42,7 +42,7 @@ class Table extends React.Component {
       </div>
 
     </div>)
-  }        
+  }
 
 
   // <div className="seat5">

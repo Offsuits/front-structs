@@ -5,8 +5,6 @@ class Person extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-
-
   }
 
   render() {
@@ -19,7 +17,7 @@ class Person extends React.Component {
               <img id="right" src="nobus/blank.png"/>
             </div>
             <div id="name">
-              Marc Perry
+              {this.props.name}
             </div>
             <div id="chipcount">
               {this.props.stack}
@@ -32,7 +30,7 @@ class Person extends React.Component {
         <div>
           <div className="playercontainer">
             <div id="name_bot">
-              Marc Perry
+              {this.props.name}
             </div>
             <div id="chipcount_bot">
               {this.props.stack}

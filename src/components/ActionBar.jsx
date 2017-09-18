@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {Component} from 'react';
+import Slider from 'material-ui/Slider';
 // import slider from 'factory';
-
 
 class ActionBar extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      slider: 0
+    }
+  }
+
+  handleSlider(event, value) {
+    this.setState({slider: value});
   }
 
   // componentDidMount() {
@@ -32,15 +38,20 @@ class ActionBar extends React.Component {
   render() {
     return (
       <div>
-        <div id="range"/>
+        <Slider id="range" value={this.state.slider} onChange={this.handleSlider.bind(this)} min={0} max={1000} step={1} />
         <div id="call_button">CHECK<br/>()</div>
         <div id="bet_button">BET<br/>()</div>
         <div id="raise_button">ALL IN<br/> </div>
         <div id="fold_button">FOLD<br/> </div>
-        <input id="bet_input" defaultValue="0"/>
+        <div id="bet_input" defaultValue="0">
+          {this.state.slider}
+        </div>
       </div>
     )
   }
 }
+// <div id="range"/>
+  //buttons in the middle
+// <input id="bet_input" defaultValue="0"/>
 
 export default ActionBar;
