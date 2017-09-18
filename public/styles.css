@@ -37,18 +37,17 @@ body {
 }
 
 .seat1 {
-    position: fixed;
-    width: 7%;
-
-    right: 55%;
-    bottom: 45%;
+  position: fixed;
+  width: 7%;
+  right: 38%;
+  bottom: 66%;
 }
 
 .seat2 {
     position: fixed;
     width: 7%;
 
-    right: 68%;
+    right: 55%;
     bottom: 45%;
 }
 
@@ -56,11 +55,19 @@ body {
     position: fixed;
     width: 7%;
 
+    right: 68%;
+    bottom: 45%;
+}
+
+.seat4 {
+    position: fixed;
+    width: 7%;
+
     right: 86%;
     bottom: 66%;
 }
 
-.seat4 {
+.seat5 {
     position: fixed;
     width: 7%;
     right: 68%;
@@ -68,19 +75,12 @@ body {
     margin-top: -10%;
 }
 
-.seat5 {
+.seat6 {
     position: fixed;
     width: 7%;
     right: 55%;
     top: 25%;
     margin-top: -10%;
-}
-
-.seat6 {
-    position: fixed;
-    width: 7%;
-    right: 38%;
-    bottom: 66%;
 }
 
 .playercontainer {
@@ -315,8 +315,8 @@ body {
 #range {
     position: fixed;
     height: 1%;
-    width: 32%;
-    top: 80%;
+    width: 40%;
+    top: 77%;
     left: 9%;
 }
 
@@ -327,14 +327,15 @@ body {
     border: none;
     border-radius: .3vw;
     font: normal normal bold 3vw/normal Arial, Helvetica, sans-serif;
-    color: #3d722c;
+    /*color: #3d722c;*/
+    color: rgb(0, 188, 212);
     text-overflow: clip;
     background: rgb(0,0,0);
     box-shadow: .2vw .2vw .2vw 0 rgba(0,0,0,0.2) inset;
     text-shadow: .1vw .1vw 0 #05381c ;
 
     position: fixed;
-    left: 43%;
+    left: 50%;
     top: 82%;
     margin-top: -4%;
 }

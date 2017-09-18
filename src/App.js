@@ -7,8 +7,8 @@ import ActionBar from './components/ActionBar.jsx';
 import Chatbox from './components/Chatbox.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
-import $ from 'jquery';
 import FlatButton from 'material-ui/FlatButton';
+import $ from 'jquery';
 
 import './css/oswald.css'
 import './css/open-sans.css'
@@ -81,7 +81,7 @@ class App extends Component {
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
       this.setState({account: accounts[1]})
-    
+
       deck.deployed().then((instance)=>{
         this.setState({ deckInstance: instance });
         instance.SendStack().watch((err, event) => {
@@ -117,32 +117,32 @@ class App extends Component {
   }
 
   winner() {
-    this.state.deckInstance.calcWinner().then((card) => { 
+    this.state.deckInstance.calcWinner().then((card) => {
       this.setState({ myCard: 'nobus/' + card + '.png' });
     });
 
-    this.state.deckInstance.playerActive(0).then((bactive) => {  
+    this.state.deckInstance.playerActive(0).then((bactive) => {
       var active = bactive.toNumber();
       if(active === 2) {
         this.state.deckInstance.getCard(0).then((result) => this.setState({seat1: 'nobus/' + result + '.png' }));
       }
     });
 
-    this.state.deckInstance.playerActive(1).then((bactive) => {  
+    this.state.deckInstance.playerActive(1).then((bactive) => {
       var active = bactive.toNumber();
       if(active === 2) {
         this.state.deckInstance.getCard(1).then((result) => this.setState({seat2: 'nobus/' + result + '.png' }));
       }
     });
 
-    this.state.deckInstance.playerActive(2).then((bactive) => {  
+    this.state.deckInstance.playerActive(2).then((bactive) => {
       var active = bactive.toNumber();
       if(active === 2) {
         this.state.deckInstance.getCard(2).then((result) => this.setState({seat3: 'nobus/' + result + '.png' }));
       }
     });
 
-    this.state.deckInstance.playerActive(3).then((bactive) => {  
+    this.state.deckInstance.playerActive(3).then((bactive) => {
       var active = bactive.toNumber();
 
       console.log(active);
@@ -158,9 +158,9 @@ class App extends Component {
     })
   }
 
-  deal() {  
-    this.state.deckInstance.initGame().then(() => { 
-      this.state.deckInstance.playerActive(0).then((bactive) => {  
+  deal() {
+    this.state.deckInstance.initGame().then(() => {
+      this.state.deckInstance.playerActive(0).then((bactive) => {
         var active = bactive.toNumber();
         if(this.mySeat === 1 && active === 2) {
           this.setState({seat1: 'nobus/flipside.png'});
@@ -170,8 +170,8 @@ class App extends Component {
           this.setState({seat1: 'nobus/blank.png' });
         }
       })
-      
-      this.state.deckInstance.playerActive(1).then((bactive) => {  
+
+      this.state.deckInstance.playerActive(1).then((bactive) => {
         var active = bactive.toNumber();
         if(this.mySeat === 2 && active === 2) {
           this.setState({seat2: 'nobus/flipside.png'});
@@ -182,7 +182,7 @@ class App extends Component {
         }
       })
 
-      this.state.deckInstance.playerActive(2).then((bactive) => {  
+      this.state.deckInstance.playerActive(2).then((bactive) => {
         var active = bactive.toNumber();
         if(this.mySeat === 3 && active === 2) {
           this.setState({seat3: 'nobus/flipside.png'});
@@ -193,8 +193,8 @@ class App extends Component {
         }
       })
 
-      this.state.deckInstance.playerActive(3).then((bactive) => { 
-        var active = bactive.toNumber(); 
+      this.state.deckInstance.playerActive(3).then((bactive) => {
+        var active = bactive.toNumber();
         if(this.mySeat === 4 && active === 2) {
           this.setState({seat4: 'nobus/flipside.png'});
         } else if(active === 2) {
@@ -211,7 +211,7 @@ class App extends Component {
   }
 
 
-    
+
 
   render() {
     let img = {
@@ -227,13 +227,13 @@ class App extends Component {
     let styles = {
       navbar: {position: "fixed", top: 0, left: 0, backgroundColor: "#181818"}
     }
-    
+
     return (
       <MuiThemeProvider>
         <div>
           <AppBar title="OFFSUIT" style={styles.navbar} showMenuIconButton={false} iconElementRight={<FlatButton label="LEAVE TABLE"/>} />
 
-          <Table id="table" 
+          <Table id="table"
             seat1={this.state.seat1} seat2={this.state.seat2} seat3={this.state.seat3} seat4={this.state.seat4}
             stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4}/>
           <div className="action">
@@ -254,23 +254,23 @@ class App extends Component {
                     <img style={cards} src={this.state.seat4} />
 
                     <br/>
-                    
+
                     <button onClick={this.bet}>BET!</button>
                     <button onClick={this.shuffle}>SHUFFLE! </button>
                     <button onClick={this.deal}>DEAL! </button>
-                    <button onClick={this.winner}>Calc Winner! </button> 
-                    
-                  
+                    <button onClick={this.winner}>Calc Winner! </button>
+
+
                     <p> Winner: </p>
                     <img style={cards} src={this.state.myCard}/>
                     <p>One: {this.state.stack1}, Two: {this.state.stack2}, Three: {this.state.stack3}, Four: {this.state.stack4}</p>
-                    <button onClick={() => this.takeSeat(0)}>Seat 1</button> 
+                    <button onClick={() => this.takeSeat(0)}>Seat 1</button>
                     <button onClick={() => this.takeSeat(1)}>Seat 2</button>
-                    <button onClick={() => this.takeSeat(2)}>Seat 3</button> 
+                    <button onClick={() => this.takeSeat(2)}>Seat 3</button>
                     <button onClick={() => this.takeSeat(3)}>Seat 4</button>
                     <button onClick={() => this.takeSeat(-1)}>Stand Up</button>
                   </div>
-                    
+
                 </div>
               </main>
             </div>
