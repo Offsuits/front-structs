@@ -8,6 +8,7 @@ contract Deck {
     event SendStack(int chips, int seat);
     event Deal(int first);
     event AdvanceRound(int action);
+    event Test(int card);
 
 
     struct Card {
@@ -87,7 +88,8 @@ contract Deck {
 
 
     function nextToAction() {
-        var next = [1,2,3,0];
+        var next = [1, 2, 3, 0];
+
 
         game.action = next[uint(game.action)];
 
@@ -132,25 +134,31 @@ contract Deck {
         players[seat].currentBet += amount;
         game.pot += amount;
         game.amountToCall = players[seat].currentBet;
+        game.raiser = seat;
         SendStack(players[seat].chips, seat);
     }
 
-    function getCard(int index) constant returns(string) {
-        //return deck[index].card;
-        if(index == 0) {
-            return deck[0].card;
-        }
-        if(index == 1) {
-            return deck[1].card;
-        }
-        if(index == 2) {
-            return deck[2].card;
-        }
-        if(index == 3) {
-            return deck[3].card;
-        }
+    function fold(int seat) {
+        players[seat].active = 1;
+    }
 
-        return 'error';
+    function getCard(int index) constant returns(string) {
+        return deck[index].card;
+
+        // if(index == 0) {
+        //     return deck[0].card;
+        // }
+        // if(index == 1) {
+        //     return deck[1].card;
+        // }
+        // if(index == 2) {
+        //     return deck[2].card;
+        // }
+        // if(index == 3) {
+        //     return deck[3].card;
+        // }
+
+        // return 'error';
 
     }
 
@@ -158,8 +166,10 @@ contract Deck {
         Card memory temp;
         int randCard;
 
+
         for(int i = 52; i > 0; i--) {
             randCard = rand(i);
+            if(randCard < 0) randCard = -1 * randCard;
             temp = deck[i - 1];
             deck[i - 1] = deck[randCard];
             deck[randCard] = temp;
@@ -168,6 +178,7 @@ contract Deck {
         for(i = 0; i < 4; i++) {
             players[i].card = deck[i];
         }
+
 
         deal();
     }

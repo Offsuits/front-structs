@@ -44,15 +44,17 @@ class App extends Component {
         left: '39%',
         top: '70%',
         width: '0%'
-      }
+      },
+      sliderMax: 100
     };
 
     this.deckInstance = null;
     this.mySeat = -1;
-    this.dotLocation = {1: {position: 'fixed', width:'5%', left: '63%', top: '35%'}, 
-                        2: {position: 'fixed', width:'5%', left: '39%', top: '70%'},
-                        3: {position: 'fixed', width:'5%', left: '26%', top: '70%'},
-                        4: {position: 'fixed', width:'5%', left: '1%', top: '35%'}};
+    this.dotLocation = {0: {position: 'fixed', width:'5%', left: '63%', top: '35%'}, 
+                        1: {position: 'fixed', width:'5%', left: '39%', top: '70%'},
+                        2: {position: 'fixed', width:'5%', left: '26%', top: '70%'},
+                        3: {position: 'fixed', width:'5%', left: '1%', top: '35%'},
+                        101: {position: 'fixed', width:'0%', left: '0%', top: '0%'}};
 
     this.deal = this.deal.bind(this);
     this.winner = this.winner.bind(this);
@@ -93,16 +95,19 @@ class App extends Component {
       deck.deployed().then((instance)=>{
         this.deckInstance= instance;
         instance.SendStack().watch((err, event) => {
-
           this.setState({
             ['stack' + (event.args.seat.toNumber() + 1)]: event.args.chips.toNumber()
           });
         });
 
         instance.Deal().watch((err, event) => {
-          console.log((event.args.first.toNumber()+ 1) + ' is the dealer');
-          this.setState({active: event.args.first.toNumber() + 1});
-          this.setState({actionDot: this.dotLocation[event.args.first.toNumber()]});
+          var turn = event.args.first.toNumber();
+          console.log(turn + ' is the dealer');
+          this.setState({active: turn, 
+                        actionDot: this.dotLocation[turn],
+                      //  sliderMax: this.state.[stack + turn]
+                      });
+
           this.deal();
         });
 
@@ -111,9 +116,21 @@ class App extends Component {
         // });
 
         instance.AdvanceRound().watch((err, event) => {
-          console.log(event.args.action.toNumber());
-          this.setState({active: event.args.action.toNumber() + 1});
-          this.setState({actionDot: this.dotLocation[event.args.action.toNumber()]});
+          console.log(event.args);
+          var turn = event.args.action.toNumber();
+          console.log(turn);
+          this.setState({active: turn});
+          this.setState({actionDot: this.dotLocation[turn]});
+          if(turn === 101) {
+            this.winner();
+          } else {
+            //this.setState({sliderMax: this.state.[stack + turn]});
+          }
+
+        });
+
+        instance.Test().watch((err, event) => {
+          console.log(event.args.card.toNumber());
         });
       })
     })
@@ -123,12 +140,12 @@ class App extends Component {
   takeSeat(seat) {
     if(seat !== -1){
       this.deckInstance.sitDown(seat, 1000);
-      this.mySeat = seat + 1;
+      this.mySeat = seat;
     } else {
 
       if(this.mySeat !== -1){
         console.log('stand up');
-        this.deckInstance.standUp(this.mySeat - 1).then(() => this.mySeat = seat + 1);
+        this.deckInstance.standUp(this.mySeat).then(() => this.mySeat = seat);
       }
     }
 
@@ -171,17 +188,21 @@ class App extends Component {
   }
 
   shuffle() {
-    this.deckInstance.shuffle({gas: 40000000});
+    $(".action").children().prop('disabled',true);
+    this.deckInstance.shuffle({gas: 400000000});
   }
 
   deal() {
-    this.deckInstance.initGame({gas: 40000000}).then(() => {
+    // this.deckInstance.initGame({gas: 40000000}).then(() => {
       this.deckInstance.playerActive(0).then((bactive) => {
         var active = bactive.toNumber();
-        if(this.mySeat === 1 && active === 2) {
+        if(this.mySeat === 0 && active === 2) {
           this.setState({seat1: 'nobus/flipside.png'});
         } else if(active === 2) {
           this.deckInstance.getCard(0).then((result) => this.setState({seat1: 'nobus/' + result + '.png' }));
+        } else if(active === 1) {
+          this.deckInstance.getCard(0).then((result) => this.setState({seat1: 'nobus/' + result + '.png' }));
+
         } else {
           this.setState({seat1: 'nobus/blank.png' });
         }
@@ -189,7 +210,7 @@ class App extends Component {
 
       this.deckInstance.playerActive(1).then((bactive) => {
         var active = bactive.toNumber();
-        if(this.mySeat === 2 && active === 2) {
+        if(this.mySeat === 1 && active === 2) {
           this.setState({seat2: 'nobus/flipside.png'});
         } else if(active === 2) {
           this.deckInstance.getCard(1).then((result) => {
@@ -203,7 +224,7 @@ class App extends Component {
 
       this.deckInstance.playerActive(2).then((bactive) => {
         var active = bactive.toNumber();
-        if(this.mySeat === 3 && active === 2) {
+        if(this.mySeat === 2 && active === 2) {
           this.setState({seat3: 'nobus/flipside.png'});
         } else if(active === 2) {
           this.deckInstance.getCard(2).then((result) => this.setState({seat3: 'nobus/' + result + '.png' }));
@@ -214,7 +235,7 @@ class App extends Component {
 
       this.deckInstance.playerActive(3).then((bactive) => {
         var active = bactive.toNumber();
-        if(this.mySeat === 4 && active === 2) {
+        if(this.mySeat === 3 && active === 2) {
           this.setState({seat4: 'nobus/flipside.png'});
         } else if(active === 2) {
           this.deckInstance.getCard(3).then((result) => this.setState({seat4: 'nobus/' + result + '.png' }));
@@ -222,14 +243,18 @@ class App extends Component {
           this.setState({seat4: 'nobus/blank.png'});
         }
       })
-    })
+    //})
   }
 
   bet() {
-    this.deckInstance.bet(20, this.mySeat - 1, {gas: 4000000});
+    this.deckInstance.bet(20, this.mySeat, {gas: 4000000});
     this.deckInstance.nextToAction();
   }
 
+  fold() {
+    this.deckInstance.fold();
+    this.deckInstance.nextToAction();
+  }
 
   notTurn() {
     console.log('Not your turn. Its ' + this.state.active + ' and your ' + this.mySeat );
@@ -264,7 +289,7 @@ class App extends Component {
             seat1={this.state.seat1} seat2={this.state.seat2} seat3={this.state.seat3} seat4={this.state.seat4}
             stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4}/>
           <div className="action">
-            <ActionBar/>
+            <ActionBar sliderMax={this.sliderMax} bet={this.bet} fold={this.fold}/>
           </div>
 
           <div id="chatbox">
