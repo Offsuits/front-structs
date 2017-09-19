@@ -323,6 +323,7 @@ class App extends Component {
     let actionDot = this.state.actionDot;
 
     return (
+
       <MuiThemeProvider>
         <div>
           <AppBar title="OFFSUIT" style={styles.navbar} showMenuIconButton={false} iconElementRight={<FlatButton label="LEAVE TABLE"/>} />

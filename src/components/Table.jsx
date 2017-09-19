@@ -6,7 +6,7 @@ class Table extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dealer: 2,
+      dealer: 3,
       pot: 0,
       active: [true, true, true, true, true, true],
       show: false,
@@ -20,18 +20,12 @@ class Table extends React.Component {
   }
 
   render() {
-    const style = {
-      margin: 12,
-      position: 'fixed',
-      top: 104,
-      left: 393
-    }
 
     return (
       <div>
-        <RaisedButton id="pot_button" label={`POT $${this.state.pot}`} style={style} disabled={true} disabledBackgroundColor={'DimGray'} disabledLabelColor={'white'} />
         <div id="table"/>
         <div className="seats">
+          <RaisedButton className="pot_button" label={`POT $${this.state.pot}`}  disabled={true} disabledBackgroundColor={'DimGray'} disabledLabelColor={'white'} />
           <div className="seat1">
             <Person bot={false} player={this.currSeat===1} dealer={this.state.dealer===0} active={this.state.active[0]} card={this.props.seat1}
               stack={this.props.stack1} name={this.state.name1}/>

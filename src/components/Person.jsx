@@ -14,11 +14,16 @@ class Person extends React.Component {
     }
 
 
+    const style = {
+      height: '35px',
+      width: '35px'
+    }
+
     if (!this.props.bot) {
       return (
         <div>
           <div id="dealer_chip">
-            {this.props.dealer && <img id="dealer" src="images/dealerchip.png"/>}
+            {this.props.dealer && <img id="dealer" src="images/dealerchip.png" style={style}/>}
           </div>
           <div className="playercontainer">
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -38,7 +43,7 @@ class Person extends React.Component {
       return (
         <div>
           <div id="dealer_chip">
-            {this.props.dealer && <img id="dealer" src="images/dealerchip.png"/>}
+            {this.props.dealer && <img id="dealer" src="images/dealerchip.png" style={style} />}
           </div>
           <div className="playercontainer">
             <div id="name_bot">

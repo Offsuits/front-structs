@@ -353,24 +353,30 @@ body {
 
 .seat1 #dealer_chip {
   position: fixed;
-  top: 37%;
+  top: 33%;
   left: 50%;
 }
 
 .seat2 #dealer_chip {
   position: fixed;
-  top: 47%;
-  left: 40%;
+  top: 48%;
+  left: 43%;
 }
 
 .seat3 #dealer_chip {
   position: fixed;
-  top: 47%;
-  left: 27%;
+  top: 48%;
+  left: 30%;
 }
 
 .seat4 #dealer_chip {
   position: fixed;
-  top: 37%;
+  top: 33%;
   left: 16%;
+}
+
+.seats .pot_button {
+  position: fixed;
+  top: 18%;
+  left: 31.75%;
 }
