@@ -8,12 +8,18 @@ class Person extends React.Component {
   }
 
   render() {
+
+    var imgOp = {
+      opacity: '0.5'
+    }
+
+
     if (!this.props.bot) {
       return (
         <div>
           <div className="playercontainer">
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
-              <img id="left" src={this.props.card}/>
+              <img id="left" src={this.props.card} style={imgOp}/>
               <img id="right" src="nobus/blank.png"/>
             </div>
             <div id="name">
@@ -36,7 +42,7 @@ class Person extends React.Component {
               {this.props.stack}
             </div>
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
-              <img id="left" src={this.props.card}/>
+              <img id="left" src={this.props.card} style={imgOp}/>
               <img id="right" src="nobus/blank.png"/>
             </div>
           </div>
