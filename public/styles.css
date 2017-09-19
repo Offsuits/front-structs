@@ -327,7 +327,7 @@ body {
   border: none;
   border-radius: .3vw;
   font: normal normal bold 3vw/normal Arial, Helvetica, sans-serif;
-  /*color: #3d722c;*/
+  font-size: 200%;
   color: rgb(0, 188, 212);
   text-overflow: clip;
   background: rgb(0,0,0);
@@ -336,7 +336,7 @@ body {
 
   position: fixed;
   left: 50%;
-  top: 82%;
+  top: 85%;
   margin-top: -4%;
 }
 
@@ -349,4 +349,28 @@ body {
   top: 0%;
   left: 75%;
   width: 23%
+}
+
+.seat1 #dealer_chip {
+  position: fixed;
+  top: 37%;
+  left: 50%;
+}
+
+.seat2 #dealer_chip {
+  position: fixed;
+  top: 47%;
+  left: 40%;
+}
+
+.seat3 #dealer_chip {
+  position: fixed;
+  top: 47%;
+  left: 27%;
+}
+
+.seat4 #dealer_chip {
+  position: fixed;
+  top: 37%;
+  left: 16%;
 }

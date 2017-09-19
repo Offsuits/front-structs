@@ -17,6 +17,9 @@ class Person extends React.Component {
     if (!this.props.bot) {
       return (
         <div>
+          <div id="dealer_chip">
+            {this.props.dealer && <img id="dealer" src="images/dealerchip.png"/>}
+          </div>
           <div className="playercontainer">
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
               <img id="left" src={this.props.card} style={imgOp}/>
@@ -34,6 +37,9 @@ class Person extends React.Component {
     } else {
       return (
         <div>
+          <div id="dealer_chip">
+            {this.props.dealer && <img id="dealer" src="images/dealerchip.png"/>}
+          </div>
           <div className="playercontainer">
             <div id="name_bot">
               {this.props.name}
