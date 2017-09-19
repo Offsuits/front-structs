@@ -74,6 +74,10 @@ contract Deck {
  
         game.action = game.raiser;
 
+        for(i = 0; i < 4; i++) {
+            players[i].card = deck[i];
+        }
+
     }
 
     function deal() {
@@ -132,7 +136,22 @@ contract Deck {
     }
 
     function getCard(int index) constant returns(string) {
-        return players[index].card.card;
+        //return deck[index].card;
+        if(index == 0) {
+            return deck[0].card;
+        }
+        if(index == 1) {
+            return deck[1].card;
+        }
+        if(index == 2) {
+            return deck[2].card;
+        }
+        if(index == 3) {
+            return deck[3].card;
+        }
+
+        return 'error';
+
     }
 
     function shuffle() {
@@ -149,6 +168,8 @@ contract Deck {
         for(i = 0; i < 4; i++) {
             players[i].card = deck[i];
         }
+
+        deal();
     }
 
 

@@ -42,17 +42,17 @@ class App extends Component {
       actionDot: {
         position: 'fixed',
         left: '39%',
-        top: '67%',
-        width: '5%'
+        top: '70%',
+        width: '0%'
       }
     };
 
     this.deckInstance = null;
     this.mySeat = -1;
-    this.dotLocation = {1: {position: 'fixed', width:'5%', left: '45%', top: '55%'}, 
-                        2: {position: 'fixed', width:'5%', left: '20%', top: '55%'},
-                        3: {position: 'fixed', width:'5%', left: '2%', top: '35%'},
-                        4: {position: 'fixed', width:'5%', left: '0%', top: '0%'}};
+    this.dotLocation = {1: {position: 'fixed', width:'5%', left: '63%', top: '35%'}, 
+                        2: {position: 'fixed', width:'5%', left: '39%', top: '70%'},
+                        3: {position: 'fixed', width:'5%', left: '26%', top: '70%'},
+                        4: {position: 'fixed', width:'5%', left: '1%', top: '35%'}};
 
     this.deal = this.deal.bind(this);
     this.winner = this.winner.bind(this);
@@ -171,13 +171,11 @@ class App extends Component {
   }
 
   shuffle() {
-    this.deckInstance.shuffle({gas: 4000000}).then( () => {
-      this.deckInstance.deal({gas: 4000000});
-    })
+    this.deckInstance.shuffle({gas: 40000000});
   }
 
   deal() {
-    this.deckInstance.initGame().then(() => {
+    this.deckInstance.initGame({gas: 40000000}).then(() => {
       this.deckInstance.playerActive(0).then((bactive) => {
         var active = bactive.toNumber();
         if(this.mySeat === 1 && active === 2) {
@@ -194,7 +192,10 @@ class App extends Component {
         if(this.mySeat === 2 && active === 2) {
           this.setState({seat2: 'nobus/flipside.png'});
         } else if(active === 2) {
-          this.deckInstance.getCard(1).then((result) => this.setState({seat2: 'nobus/' + result + '.png' }));
+          this.deckInstance.getCard(1).then((result) => {
+            this.setState({seat2: 'nobus/' + result + '.png' });
+            console.log(result)
+          })
         } else {
           this.setState({seat2: 'nobus/blank.png'});
         }
@@ -280,23 +281,23 @@ class App extends Component {
                     <img style={cards} src={this.state.seat4} />
 
                     <br/>
-
-                    <button onClick={this.bet}>BET!</button>
+                    
+                    <button onClick={this.state.active === this.mySeat ? this.bet : this.notTurn}>BET!</button>
                     <button onClick={this.shuffle}>SHUFFLE! </button>
                     <button onClick={this.deal}>DEAL! </button>
-                    <button onClick={this.winner}>Calc Winner! </button>
-
-
+                    <button onClick={this.winner}>Calc Winner! </button> 
+                    
+                  
                     <p> Winner: </p>
                     <img style={cards} src={this.state.myCard}/>
                     <p>One: {this.state.stack1}, Two: {this.state.stack2}, Three: {this.state.stack3}, Four: {this.state.stack4}</p>
-                    <button onClick={() => this.takeSeat(0)}>Seat 1</button>
+                    <button onClick={() => this.takeSeat(0)}>Seat 1</button> 
                     <button onClick={() => this.takeSeat(1)}>Seat 2</button>
-                    <button onClick={() => this.takeSeat(2)}>Seat 3</button>
+                    <button onClick={() => this.takeSeat(2)}>Seat 3</button> 
                     <button onClick={() => this.takeSeat(3)}>Seat 4</button>
                     <button onClick={() => this.takeSeat(-1)}>Stand Up</button>
                   </div>
-
+                    
                 </div>
               </main>
             </div>
