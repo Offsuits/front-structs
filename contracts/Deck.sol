@@ -35,6 +35,10 @@ contract Deck {
         return players[seat].currentBet;
     }
 
+    function getCurrentPotSize() constant returns(int) {
+        return game.pot;
+    }
+
     function getGameState() constant returns(int) {
         return game.action;
     }
@@ -101,6 +105,8 @@ contract Deck {
             game.action = next[uint(game.action)];
         }
 
+        Test(game.raiser);
+        
         if(game.action == game.raiser) {
             AdvanceRound(101);
         } else {
@@ -109,13 +115,16 @@ contract Deck {
 
     }
 
-    function calcWinner() constant returns(string) {
+    function calcWinner() {
         int seat = winner();
         players[seat].chips += game.pot;
         game.pot = 0;
-        SendStack(players[seat].chips, seat);
+        
+        for(var i = 0; i < 4; i++) {
+            players[i].currentBet = 0;
+        }
 
-        return players[seat].card.card;
+        SendStack(players[seat].chips, seat);
     }
 
     function winner() returns(int) {
@@ -130,8 +139,6 @@ contract Deck {
 
         return winner;
     }
-
-    
 
     function bet(int amount, int seat, bool raise) {
         players[seat].chips = players[seat].chips - amount;

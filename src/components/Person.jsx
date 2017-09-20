@@ -11,12 +11,10 @@ class Person extends React.Component {
 
     const styles = {
       dealer: {
-        height: '35px',
-        width: '35px'
+        height: '3%',
       },
       seat: {
-        height: '100px',
-        width: '100px'
+        height: '5%',
       },
       imgOp: {
         opacity: this.props.active
@@ -31,9 +29,10 @@ class Person extends React.Component {
         <div className="transbox">
           <p>{this.props.bet}</p>
         </div>
-        <div className="playercontainer">
-          <img id="emptyseat" src="images/seat_empty.png" style={styles.seat}/>
+        <img id="emptyseat" src="images/seat_empty.png" style={styles.seat}/>
           <b>SIT</b>
+
+        <div className="playercontainer">
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <img id="left" src={this.props.card} style={styles.imgOp}/>
             <img id="right" src="nobus/blank.png"/>

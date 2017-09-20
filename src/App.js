@@ -43,6 +43,7 @@ class App extends Component {
       bet2: 0,
       bet3: 0,
       bet4: 0,
+      pot: 0,
       active1: 1,
       active2: 1,
       active3: 1,
@@ -128,6 +129,7 @@ class App extends Component {
 
         instance.AdvanceRound().watch((err, event) => {
           var turn = event.args.action.toNumber();
+          console.log(turn);
 
           this.setState({action: turn});
           this.setState({actionDot: this.dotLocation[turn]});
@@ -136,7 +138,6 @@ class App extends Component {
           } else {
             this.updatePlayerBets();
           }
-
         });
 
         instance.Test().watch((err, event) => {
@@ -147,12 +148,17 @@ class App extends Component {
   }
 
   updatePlayerBets() {
-    this.deckInstance.getCurrentPlayerBet(0).then((result) => this.setState({bet1: result}));
-    this.deckInstance.getCurrentPlayerBet(1).then((result) => this.setState({bet2: result}));
-    this.deckInstance.getCurrentPlayerBet(2).then((result) => this.setState({bet3: result}));
-    this.deckInstance.getCurrentPlayerBet(3).then((result) => this.setState({bet4: result}));
+    this.deckInstance.getCurrentPlayerBet(0).then((result) => {
+      this.setState({bet1: result.toNumber()})
+      console.log(result);
+    });
+    this.deckInstance.getCurrentPlayerBet(1).then((result) => this.setState({bet2: result.toNumber()}));
+    this.deckInstance.getCurrentPlayerBet(2).then((result) => this.setState({bet3: result.toNumber()}));
+    this.deckInstance.getCurrentPlayerBet(3).then((result) => this.setState({bet4: result.toNumber()}));
 
-    this.deckInstance.getCurrentPlayerBet(this.mySeat).then((result) => this.myCurrentBet = result);
+    this.deckInstance.getCurrentPlayerBet(this.mySeat).then((result) => this.myCurrentBet = result.toNumber());
+
+    this.deckInstance.getCurrentPotSize().then((result) => this.setState({pot: result.toNumber()}))
 
   }
 
@@ -173,6 +179,7 @@ class App extends Component {
   winner() {
     this.deckInstance.calcWinner().then((card) => {
       this.setState({ myCard: 'nobus/' + card + '.png' });
+      this.updatePlayerBets();
     });
 
     this.deckInstance.playerActive(0).then((bactive) => {
@@ -204,6 +211,7 @@ class App extends Component {
         this.deckInstance.getCard(3).then((result) => this.setState({seat4: 'nobus/' + result + '.png' }));
       }
     });
+
   }
 
   shuffle() {
@@ -211,7 +219,7 @@ class App extends Component {
     this.deckInstance.shuffle({gas: 400000000});
   }
 
-  deal() {
+  deal(){
     // this.deckInstance.initGame({gas: 40000000}).then(() => {
       this.deckInstance.playerActive(0).then((bactive) => {
         var active = bactive.toNumber();
@@ -265,7 +273,7 @@ class App extends Component {
     //})
   }
 
-  bet(raise = false) {
+  bet(raise) {
     if(this.mySeat === this.state.action){
       this.deckInstance.bet(20, this.mySeat, raise, {gas: 4000000});
       this.deckInstance.nextToAction();
@@ -333,9 +341,12 @@ class App extends Component {
           <Table id="table"
             active1={this.state.active1} active2={this.state.active2} active3={this.state.active3} active4={this.state.active4}
             seat1={this.state.seat1} seat2={this.state.seat2} seat3={this.state.seat3} seat4={this.state.seat4}
-            stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} bet1={this.state.bet1} bet2={this.state.bet2} bet3={this.state.bet3} bet4={this.state.bet4}/>
+            stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} 
+            bet1={this.state.bet1} bet2={this.state.bet2} bet3={this.state.bet3} bet4={this.state.bet4}
+            pot={this.state.pot}
+            />
           <div className="action">
-            <ActionBar sliderMax={this.sliderMax} bet={this.bet} fold={this.fold}/>
+            <ActionBar sliderMax={this.sliderMax} bet={() => this.bet(false)} fold={this.fold}/>
           </div>
 
           <div id="chatbox">
@@ -353,7 +364,7 @@ class App extends Component {
 
                     <br/>
 
-                    <button onClick={this.state.action === this.mySeat ? this.bet : this.notTurn}>BET!</button>
+                    <button onClick={this.state.action === this.mySeat ? () => this.bet(false) : this.notTurn}>BET!</button>
                     <button onClick={this.shuffle}>SHUFFLE! </button>
                     <button onClick={this.deal}>DEAL! </button>
                     <button onClick={this.winner}>Calc Winner! </button>
