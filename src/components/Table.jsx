@@ -27,20 +27,20 @@ class Table extends React.Component {
         <div className="seats">
           <RaisedButton className="pot_button" label={`POT $${this.state.pot}`}  disabled={true} disabledBackgroundColor={'DimGray'} disabledLabelColor={'white'} />
           <div className="seat1">
-            <Person bot={false} player={this.currSeat===1} dealer={this.state.dealer===0} active={this.state.active[0]} card={this.props.seat1}
-              stack={this.props.stack1} name={this.state.name1}/>
+            <Person player={this.currSeat===1} dealer={this.state.dealer===0} active={this.state.active[0]} card={this.props.seat1}
+              stack={this.props.stack1} name={this.state.name1} bet={this.props.bet1}/>
           </div>
           <div className="seat2">
-            <Person bot={false} player={this.currSeat===2} dealer={this.state.dealer===1} active={this.state.active[1]} card={this.props.seat2}
-              stack={this.props.stack2} name={this.state.name2}/>
+            <Person player={this.currSeat===2} dealer={this.state.dealer===1} active={this.state.active[1]} card={this.props.seat2}
+              stack={this.props.stack2} name={this.state.name2} bet={this.props.bet2}/>
           </div>
           <div className="seat3">
-            <Person bot={false} player={this.currSeat===3} dealer={this.state.dealer===2} active={this.state.active[2]} card={this.props.seat3}
-              stack={this.props.stack3} name={this.state.name3}/>
+            <Person player={this.currSeat===3} dealer={this.state.dealer===2} active={this.state.active[2]} card={this.props.seat3}
+              stack={this.props.stack3} name={this.state.name3} bet={this.props.bet3}/>
           </div>
           <div className="seat4">
-            <Person bot={false} player={this.currSeat===4} dealer={this.state.dealer===3} active={this.state.active[3]} card={this.props.seat4}
-              stack={this.props.stack4} name={this.state.name4}/>
+            <Person player={this.currSeat===4} dealer={this.state.dealer===3} active={this.state.active[3]} card={this.props.seat4}
+              stack={this.props.stack4} name={this.state.name4} bet={this.props.bet4}/>
           </div>
         </div>
       </div>

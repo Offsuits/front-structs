@@ -90,6 +90,38 @@ body {
   height: 100%;
 }
 
+.seat1 .playercontainer b {
+  position: fixed;
+  top: 39%;
+  left: 57.9%;
+  color: white;
+  font-size: 125%;
+}
+
+.seat2 .playercontainer b {
+  position: fixed;
+  top: 60.25%;
+  left: 40.9%;
+  color: white;
+  font-size: 125%;
+}
+
+.seat3 .playercontainer b {
+  position: fixed;
+  top: 60%;
+  left: 27.9%;
+  color: white;
+  font-size: 125%;
+}
+
+.seat4 .playercontainer b {
+  position: fixed;
+  top: 39%;
+  left: 9.9%;
+  color: white;
+  font-size: 125%;
+}
+
 #left {
   background-color: #0D6283;
   width: 50%;
@@ -395,7 +427,7 @@ body {
 
 .seat3 .transbox {
   position: fixed;
-  top: 48%;
+  top: 47%;
   left: 22%;
 }
 
