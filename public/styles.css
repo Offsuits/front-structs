@@ -353,8 +353,8 @@ body {
 
 .seat1 #dealer_chip {
   position: fixed;
-  top: 33%;
-  left: 50%;
+  top: 41%;
+  left: 49.75%;
 }
 
 .seat2 #dealer_chip {
@@ -371,12 +371,41 @@ body {
 
 .seat4 #dealer_chip {
   position: fixed;
-  top: 33%;
-  left: 16%;
+  top: 42%;
+  left: 17%;
 }
 
 .seats .pot_button {
   position: fixed;
   top: 18%;
   left: 31.75%;
+}
+
+.seat1 .transbox {
+  position: fixed;
+  top: 32%;
+  left: 48%;
+}
+
+.seat2 .transbox {
+  position: fixed;
+  top: 48%;
+  left: 36%;
+}
+
+.seat3 .transbox {
+  position: fixed;
+  top: 48%;
+  left: 22%;
+}
+
+.seat4 .transbox {
+  position: fixed;
+  top: 32%;
+  left:18%;
+}
+
+.transbox p {
+  margin: 5%;
+  color: #ffffff;
 }

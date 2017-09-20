@@ -13,7 +13,6 @@ class Person extends React.Component {
       opacity: this.props.active
     }
 
-
     const style = {
       height: '35px',
       width: '35px'
@@ -24,6 +23,9 @@ class Person extends React.Component {
         <div>
           <div id="dealer_chip">
             {this.props.dealer && <img id="dealer" src="images/dealerchip.png" style={style}/>}
+          </div>
+          <div className="transbox">
+            <p>$150</p>
           </div>
           <div className="playercontainer">
             <div style={{display: 'flex', justifyContent: 'space-between'}}>

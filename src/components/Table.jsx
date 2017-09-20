@@ -6,7 +6,7 @@ class Table extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dealer: 3,
+      dealer: 0,
       pot: 0,
       active: [true, true, true, true, true, true],
       show: false,
