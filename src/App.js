@@ -59,7 +59,7 @@ class App extends Component {
     this.deckInstance = null;
     this.mySeat = -1;
     this.myCurrentBet = 0;
-    this.dotLocation = {0: {position: 'fixed', width:'5%', left: '63%', top: '35%'}, 
+    this.dotLocation = {0: {position: 'fixed', width:'5%', left: '63%', top: '35%'},
                         1: {position: 'fixed', width:'5%', left: '39%', top: '70%'},
                         2: {position: 'fixed', width:'5%', left: '26%', top: '70%'},
                         3: {position: 'fixed', width:'5%', left: '1%', top: '35%'},
@@ -101,7 +101,7 @@ class App extends Component {
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
       this.setState({account: accounts[1]})
-    
+
       deck.deployed().then((instance)=>{
         this.deckInstance= instance;
 
@@ -114,7 +114,7 @@ class App extends Component {
         instance.Deal().watch((err, event) => {
           var turn = event.args.first.toNumber();
           console.log(turn + ' is the dealer');
-          this.setState({action: turn, 
+          this.setState({action: turn,
                         actionDot: this.dotLocation[turn],
                         active1: 1, active2: 1, active3: 1, active4: 1
                       });
@@ -323,16 +323,17 @@ class App extends Component {
     let actionDot = this.state.actionDot;
 
     return (
+
       <MuiThemeProvider>
         <div>
           <AppBar title="OFFSUIT" style={styles.navbar} showMenuIconButton={false} iconElementRight={<FlatButton label="LEAVE TABLE"/>} />
 
           <img src="action.png" style={actionDot}/>
-          
+
           <Table id="table"
             active1={this.state.active1} active2={this.state.active2} active3={this.state.active3} active4={this.state.active4}
             seat1={this.state.seat1} seat2={this.state.seat2} seat3={this.state.seat3} seat4={this.state.seat4}
-            stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4}/>
+            stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} bet1={this.state.bet1} bet2={this.state.bet2} bet3={this.state.bet3} bet4={this.state.bet4}/>
           <div className="action">
             <ActionBar sliderMax={this.sliderMax} bet={this.bet} fold={this.fold}/>
           </div>
@@ -351,23 +352,23 @@ class App extends Component {
                     <img style={cards} src={this.state.seat4} />
 
                     <br/>
-                    
+
                     <button onClick={this.state.action === this.mySeat ? this.bet : this.notTurn}>BET!</button>
                     <button onClick={this.shuffle}>SHUFFLE! </button>
                     <button onClick={this.deal}>DEAL! </button>
-                    <button onClick={this.winner}>Calc Winner! </button> 
-                    
-                  
+                    <button onClick={this.winner}>Calc Winner! </button>
+
+
                     <p> Winner: </p>
                     <img style={cards} src={this.state.myCard}/>
                     <p>One: {this.state.stack1}, Two: {this.state.stack2}, Three: {this.state.stack3}, Four: {this.state.stack4}</p>
-                    <button onClick={() => this.takeSeat(0)}>Seat 1</button> 
+                    <button onClick={() => this.takeSeat(0)}>Seat 1</button>
                     <button onClick={() => this.takeSeat(1)}>Seat 2</button>
-                    <button onClick={() => this.takeSeat(2)}>Seat 3</button> 
+                    <button onClick={() => this.takeSeat(2)}>Seat 3</button>
                     <button onClick={() => this.takeSeat(3)}>Seat 4</button>
                     <button onClick={() => this.takeSeat(-1)}>Stand Up</button>
                   </div>
-                    
+
                 </div>
               </main>
             </div>
