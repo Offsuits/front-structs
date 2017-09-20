@@ -31,6 +31,10 @@ contract Deck {
         int amountToCall;
     }
 
+    function getCurrentPlayerBet(int seat) constant returns(int) {
+        return players[seat].currentBet;
+    }
+
     function getGameState() constant returns(int) {
         return game.action;
     }
@@ -129,12 +133,16 @@ contract Deck {
 
     
 
-    function bet(int amount, int seat) {
+    function bet(int amount, int seat, bool raise) {
         players[seat].chips = players[seat].chips - amount;
         players[seat].currentBet += amount;
         game.pot += amount;
         game.amountToCall = players[seat].currentBet;
-        game.raiser = seat;
+        
+        if(raise){
+            game.raiser = seat;
+        }
+
         SendStack(players[seat].chips, seat);
     }
 
@@ -144,22 +152,6 @@ contract Deck {
 
     function getCard(int index) constant returns(string) {
         return deck[index].card;
-
-        // if(index == 0) {
-        //     return deck[0].card;
-        // }
-        // if(index == 1) {
-        //     return deck[1].card;
-        // }
-        // if(index == 2) {
-        //     return deck[2].card;
-        // }
-        // if(index == 3) {
-        //     return deck[3].card;
-        // }
-
-        // return 'error';
-
     }
 
     function shuffle() {
