@@ -24,19 +24,19 @@ class Table extends React.Component {
       <div id="table"/>
       <div className="seats">
         <div className="seat1">
-          <Person bot={false} player={this.currSeat===1} dealer={this.state.dealer===0} active={this.state.active[0]} card={this.props.seat1}
+          <Person bot={false} player={this.currSeat===1} dealer={this.state.dealer===0} active={this.props.active1} card={this.props.seat1}
             stack={this.props.stack1} name={this.state.name1}/>
         </div>
         <div className="seat2">
-          <Person bot={false} player={this.currSeat===2} dealer={this.state.dealer===1} active={this.state.active[1]} card={this.props.seat2}
+          <Person bot={false} player={this.currSeat===2} dealer={this.state.dealer===1} active={this.props.active2} card={this.props.seat2}
             stack={this.props.stack2} name={this.state.name2}/>
         </div>
         <div className="seat3">
-          <Person bot={false} player={this.currSeat===3} dealer={this.state.dealer===2} active={this.state.active[2]} card={this.props.seat3}
+          <Person bot={false} player={this.currSeat===3} dealer={this.state.dealer===2} active={this.props.active3} card={this.props.seat3}
             stack={this.props.stack3} name={this.state.name3}/>
         </div>
         <div className="seat4">
-          <Person bot={false} player={this.currSeat===4} dealer={this.state.dealer===3} active={this.state.active[3]} card={this.props.seat4}
+          <Person bot={false} player={this.currSeat===4} dealer={this.state.dealer===3} active={this.props.active4} card={this.props.seat4}
             stack={this.props.stack4} name={this.state.name4}/>
         </div>
       </div>

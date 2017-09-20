@@ -30,6 +30,7 @@ class App extends Component {
       storageValue: 0,
       web3: null,
       account: null,
+      action: -1,
       seat1: 'nobus/blank.png',
       seat2: 'nobus/blank.png',
       seat3: 'nobus/blank.png',
@@ -38,7 +39,14 @@ class App extends Component {
       stack2: 0,
       stack3: 0,
       stack4: 0,
-      action: -1,
+      bet1: 0,
+      bet2: 0,
+      bet3: 0,
+      bet4: 0,
+      active1: 1,
+      active2: 1,
+      active3: 1,
+      active4: 1,
       actionDot: {
         position: 'fixed',
         left: '39%',
@@ -50,6 +58,7 @@ class App extends Component {
 
     this.deckInstance = null;
     this.mySeat = -1;
+    this.myCurrentBet = 0;
     this.dotLocation = {0: {position: 'fixed', width:'5%', left: '63%', top: '35%'}, 
                         1: {position: 'fixed', width:'5%', left: '39%', top: '70%'},
                         2: {position: 'fixed', width:'5%', left: '26%', top: '70%'},
@@ -62,6 +71,7 @@ class App extends Component {
     this.takeSeat = this.takeSeat.bind(this);
     this.bet = this.bet.bind(this);
     this.notTurn = this.notTurn.bind(this);
+    this.fold = this.fold.bind(this);
 
   }
 
@@ -94,6 +104,7 @@ class App extends Component {
     
       deck.deployed().then((instance)=>{
         this.deckInstance= instance;
+
         instance.SendStack().watch((err, event) => {
           this.setState({
             ['stack' + (event.args.seat.toNumber() + 1)]: event.args.chips.toNumber()
@@ -103,9 +114,9 @@ class App extends Component {
         instance.Deal().watch((err, event) => {
           var turn = event.args.first.toNumber();
           console.log(turn + ' is the dealer');
-          this.setState({active: turn, 
+          this.setState({action: turn, 
                         actionDot: this.dotLocation[turn],
-                      //  sliderMax: this.state.[stack + turn]
+                        active1: 1, active2: 1, active3: 1, active4: 1
                       });
 
           this.deal();
@@ -116,15 +127,14 @@ class App extends Component {
         // });
 
         instance.AdvanceRound().watch((err, event) => {
-          console.log(event.args);
           var turn = event.args.action.toNumber();
-          console.log(turn);
-          this.setState({active: turn});
+
+          this.setState({action: turn});
           this.setState({actionDot: this.dotLocation[turn]});
           if(turn === 101) {
             this.winner();
           } else {
-            //this.setState({sliderMax: this.state.[stack + turn]});
+            this.updatePlayerBets();
           }
 
         });
@@ -136,6 +146,15 @@ class App extends Component {
     })
   }
 
+  updatePlayerBets() {
+    this.deckInstance.getCurrentPlayerBet(0).then((result) => this.setState({bet1: result}));
+    this.deckInstance.getCurrentPlayerBet(1).then((result) => this.setState({bet2: result}));
+    this.deckInstance.getCurrentPlayerBet(2).then((result) => this.setState({bet3: result}));
+    this.deckInstance.getCurrentPlayerBet(3).then((result) => this.setState({bet4: result}));
+
+    this.deckInstance.getCurrentPlayerBet(this.mySeat).then((result) => this.myCurrentBet = result);
+
+  }
 
   takeSeat(seat) {
     if(seat !== -1){
@@ -246,18 +265,43 @@ class App extends Component {
     //})
   }
 
-  bet() {
-    this.deckInstance.bet(20, this.mySeat, {gas: 4000000});
-    this.deckInstance.nextToAction();
+  bet(raise = false) {
+    if(this.mySeat === this.state.action){
+      this.deckInstance.bet(20, this.mySeat, raise, {gas: 4000000});
+      this.deckInstance.nextToAction();
+    } else {
+      this.notTurn();
+    }
   }
 
   fold() {
-    this.deckInstance.fold();
-    this.deckInstance.nextToAction();
+    if(this.mySeat === this.state.action){
+      if(this.mySeat === 0) {
+        this.deckInstance.getCard(0).then((result) => this.setState({seat1: 'nobus/' + result + '.png' }));
+        this.setState({active1: .3})
+      }
+      if(this.mySeat === 1) {
+        this.deckInstance.getCard(1).then((result) => this.setState({seat2: 'nobus/' + result + '.png' }));
+        this.setState({active2: .3})
+      }
+      if(this.mySeat === 2) {
+        this.deckInstance.getCard(2).then((result) => this.setState({seat3: 'nobus/' + result + '.png' }));
+        this.setState({active3: .3})
+      }
+      if(this.mySeat === 3) {
+        this.deckInstance.getCard(3).then((result) => this.setState({seat4: 'nobus/' + result + '.png' }));
+        this.setState({active4: .3})
+      }
+
+      this.deckInstance.fold(this.mySeat);
+      this.deckInstance.nextToAction();
+    } else {
+     this.notTurn();
+   }
   }
 
   notTurn() {
-    console.log('Not your turn. Its ' + this.state.active + ' and your ' + this.mySeat );
+    console.log('Not your turn. Its ' + this.state.action + ' and your ' + this.mySeat );
   }
 
 
@@ -286,6 +330,7 @@ class App extends Component {
           <img src="action.png" style={actionDot}/>
           
           <Table id="table"
+            active1={this.state.active1} active2={this.state.active2} active3={this.state.active3} active4={this.state.active4}
             seat1={this.state.seat1} seat2={this.state.seat2} seat3={this.state.seat3} seat4={this.state.seat4}
             stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4}/>
           <div className="action">
@@ -307,7 +352,7 @@ class App extends Component {
 
                     <br/>
                     
-                    <button onClick={this.state.active === this.mySeat ? this.bet : this.notTurn}>BET!</button>
+                    <button onClick={this.state.action === this.mySeat ? this.bet : this.notTurn}>BET!</button>
                     <button onClick={this.shuffle}>SHUFFLE! </button>
                     <button onClick={this.deal}>DEAL! </button>
                     <button onClick={this.winner}>Calc Winner! </button> 

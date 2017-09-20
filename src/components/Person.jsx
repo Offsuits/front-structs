@@ -10,7 +10,7 @@ class Person extends React.Component {
   render() {
 
     var imgOp = {
-      opacity: '0.5'
+      opacity: this.props.active
     }
 
 
