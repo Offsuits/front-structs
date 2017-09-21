@@ -20,9 +20,9 @@ class ActionBar extends React.Component {
     return (
       <div>
         <Slider id="range" value={this.state.slider} onChange={this.handleSlider.bind(this)} min={0} max={this.props.sliderMax} step={1} />
-        <div disabled="true" id="call_button">CHECK<br/>()</div>
-        <div id="bet_button" onClick={this.props.bet}>BET<br/>()</div>
-        <div id="raise_button">ALL IN<br/> </div>
+        <div disabled="true" id="call_button" onClick={() => this.props.bet(false)}>CHECK<br/>()</div>
+        <div id="bet_button" onClick={() => this.props.bet(true)}>BET<br/>()</div>
+        <div id="raise_button" onClick={this.props.allIn}>ALL IN<br/> </div>
         <div id="fold_button" onClick={this.props.fold}>FOLD<br/> </div>
         <div id="bet_input" defaultValue="0">
           {this.state.slider}
