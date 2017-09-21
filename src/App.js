@@ -58,7 +58,8 @@ class App extends Component {
       seated1: false,
       seated2: false,
       seated3: false,
-      seated4: false
+      seated4: false,
+      dealerButton: {height: '3%', position: 'fixed', top: '33%', left: '51%'}
     };
 
     this.deckInstance = null;
@@ -70,6 +71,13 @@ class App extends Component {
                         2: {position: 'fixed', width:'5%', left: '26%', top: '70%'},
                         3: {position: 'fixed', width:'5%', left: '1%', top: '35%'},
                         101: {position: 'fixed', width:'0%', left: '0%', top: '0%'}};
+
+    this.dealerButton = {
+      0: {height: '3%', position: 'fixed', top: '33%', left: '51%'},
+      1: {height: '3%', position: 'fixed', top: '50%', left: '43%'},
+      2: {height: '3%', position: 'fixed', top: '50%', left: '23%'},
+      3: {height: '3%', position: 'fixed', top: '33%', left: '16%'}
+    }
 
     this.deal = this.deal.bind(this);
     this.winner = this.winner.bind(this);
@@ -125,11 +133,16 @@ class App extends Component {
 
         instance.Deal().watch((err, event) => {
           var turn = event.args.first.toNumber();
-          console.log(turn + ' is the dealer');
+          console.log(turn + ' is the first');
           this.setState({action: turn,
                         actionDot: this.dotLocation[turn],
-                        active1: 1, active2: 1, active3: 1, active4: 1
+                        active1: 1, active2: 1, active3: 1, active4: 1,
                       });
+
+          this.deckInstance.getCurrentDealer().then((dealer) => {
+            console.log(dealer.toNumber());
+            this.setState({dealerButton: this.dealerButton[dealer.toNumber()]});
+          });
 
           this.deal();
         });
@@ -244,14 +257,12 @@ class App extends Component {
   }
 
   shuffle() {
-    $(".action").children().prop('disabled',true);
     this.deckInstance.shuffle({gas: 400000000});
   }
 
   deal(){
     $("#call_button").text("CHECK");
     $("#bet_button").text("BET");
-  // this.deckInstance.initGame({gas: 40000000}).then(() => {
     this.deckInstance.playerActive(0).then((bactive) => {
       var active = bactive.toNumber();
       if(this.mySeat === 0 && active === 2) {
@@ -301,7 +312,6 @@ class App extends Component {
         this.setState({seat4: 'nobus/blank.png'});
       }
     })
-    //})
   }
 
   bet(raise) {
@@ -381,9 +391,9 @@ class App extends Component {
 
       <MuiThemeProvider>
         <div>
-          <AppBar title="OFFSUIT" style={styles.navbar} showMenuIconButton={false} iconElementRight={<FlatButton label="LEAVE TABLE"/>} />
 
           <img src="action.png" style={actionDot}/>
+          <img id="dealer" src="images/dealerchip.png" style={this.state.dealerButton}/>
 
           <Table id="table"
             active1={this.state.active1} active2={this.state.active2} active3={this.state.active3} active4={this.state.active4}

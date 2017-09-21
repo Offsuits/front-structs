@@ -31,6 +31,10 @@ contract Deck {
         int amountToCall;
     }
 
+    function getCurrentDealer() constant returns(int) {
+        return game.dealer;
+    }
+
     function getCurrentPlayerBet(int seat) constant returns(int) {
         return players[seat].currentBet;
     }
