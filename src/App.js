@@ -35,11 +35,11 @@ class App extends Component {
       seat2: 'nobus/blank.png',
       seat3: 'nobus/blank.png',
       seat4: 'nobus/blank.png',
-      stack1: 0,
-      stack2: 0,
-      stack3: 0,
-      stack4: 0,
-      bet1: 0,
+      stack1: 1000,
+      stack2: 1000,
+      stack3: 1000,
+      stack4: 1000,
+      bet1: 20,
       bet2: 0,
       bet3: 0,
       bet4: 0,
@@ -398,13 +398,17 @@ class App extends Component {
           <Table id="table"
             active1={this.state.active1} active2={this.state.active2} active3={this.state.active3} active4={this.state.active4}
             seat1={this.state.seat1} seat2={this.state.seat2} seat3={this.state.seat3} seat4={this.state.seat4}
-            stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} 
+            stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4}
             bet1={this.state.bet1} bet2={this.state.bet2} bet3={this.state.bet3} bet4={this.state.bet4}
             pot={this.state.pot} takeSeat={(s) => this.takeSeat(s)}
             seated1={this.state.seated1} seated2={this.state.seated2} seated3={this.state.seated3} seated4={this.state.seated4}
             />
           <div className="action">
+<<<<<<< HEAD
             <ActionBar sliderMax={this.sliderMax} bet={() => this.bet(false)} fold={this.fold} allIn={this.allIn}/>
+=======
+            <ActionBar bet={() => this.bet(false)} fold={this.fold} stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} act1={this.state.action === this.mySeat} act2={this.state.action === this.mySeat} act3={this.state.action === this.mySeat} act4={this.state.action === this.mySeat}/>
+>>>>>>> Refactor front end components
           </div>
 
           <div id="chatbox">

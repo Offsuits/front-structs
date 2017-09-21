@@ -190,7 +190,7 @@ body {
 .action {
   background-color: black;
   position: absolute;
-  width: 75%;
+  width: 74.95%;
   height: 25%;
   top: 75%;
 }
@@ -427,22 +427,118 @@ body {
 .seat2 .transbox {
   position: fixed;
   top: 48%;
-  left: 36%;
+  left: 38%;
 }
 
 .seat3 .transbox {
   position: fixed;
   top: 47%;
-  left: 22%;
+  left: 25%;
 }
 
 .seat4 .transbox {
   position: fixed;
-  top: 32%;
-  left:18%;
+  top: 31%;
+  left:19%;
 }
 
 .transbox p {
   margin: 5%;
   color: #ffffff;
+}
+
+.seat1 .betchips #chips1 {
+  position: fixed;
+  top: 36.5%;
+  left: 50%;
+}
+
+.seat1 .betchips #chips2 {
+  position: fixed;
+  top: 36%;
+  left: 50%;
+}
+
+.seat1 .betchips #chips3 {
+  position: fixed;
+  top: 35.5%;
+  left: 50%;
+}
+
+.seat1 .betchips #chips4 {
+  position: fixed;
+  top: 35%;
+  left: 50%;
+}
+
+.seat2 .betchips #chips1 {
+  position: fixed;
+  top: 48%;
+  left: 40%;
+}
+
+.seat2 .betchips #chips2 {
+  position: fixed;
+  top: 47.5%;
+  left: 40%;
+}
+
+.seat2 .betchips #chips3 {
+  position: fixed;
+  top: 47%;
+  left: 40%;
+}
+
+.seat2 .betchips #chips4 {
+  position: fixed;
+  top: 46.5%;
+  left: 40%;
+}
+
+.seat3 .betchips #chips1 {
+  position: fixed;
+  top: 48%;
+  left: 27.25%;
+}
+
+.seat3 .betchips #chips2 {
+  position: fixed;
+  top: 47.5%;
+  left: 27.25%;
+}
+
+.seat3 .betchips #chips3 {
+  position: fixed;
+  top: 47%;
+  left: 27.25%;
+}
+
+.seat3 .betchips #chips4 {
+  position: fixed;
+  top: 46.5%;
+  left: 27.25%;
+}
+
+.seat4 .betchips #chips1 {
+  position: fixed;
+  top: 37%;
+  left:17.5%;
+}
+
+.seat4 .betchips #chips2 {
+  position: fixed;
+  top: 36.5%;
+  left:17.5%;
+}
+
+.seat4 .betchips #chips3 {
+  position: fixed;
+  top: 36%;
+  left:17.5%;
+}
+
+.seat4 .betchips #chips4 {
+  position: fixed;
+  top: 35.5%;
+  left:17.5%;
 }
