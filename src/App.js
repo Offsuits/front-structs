@@ -398,7 +398,7 @@ class App extends Component {
           <Table id="table"
             active1={this.state.active1} active2={this.state.active2} active3={this.state.active3} active4={this.state.active4}
             seat1={this.state.seat1} seat2={this.state.seat2} seat3={this.state.seat3} seat4={this.state.seat4}
-            stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} 
+            stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4}
             bet1={this.state.bet1} bet2={this.state.bet2} bet3={this.state.bet3} bet4={this.state.bet4}
             pot={this.state.pot} takeSeat={(s) => this.takeSeat(s)}
             seated1={this.state.seated1} seated2={this.state.seated2} seated3={this.state.seated3} seated4={this.state.seated4}
@@ -406,6 +406,7 @@ class App extends Component {
           <div className="action">
             <ActionBar sliderMax={this.sliderMax} bet={() => this.bet(false)} fold={this.fold} allIn={this.allIn}/>
           </div>
+
 
           <div id="chatbox">
             <div className="App">

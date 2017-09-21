@@ -17,6 +17,7 @@ class ActionBar extends React.Component {
 
 
   render() {
+
     return (
       <div>
         <Slider id="range" value={this.state.slider} onChange={this.handleSlider.bind(this)} min={0} max={this.props.sliderMax} step={1} />
@@ -34,5 +35,7 @@ class ActionBar extends React.Component {
 // <div id="range"/>
   //buttons in the middle
 // <input id="bet_input" defaultValue="0"/>
+
+// <Slider id="range" value={this.state.slider} onChange={this.handleSlider.bind(this)} min={0} max={this.props.sliderMax} step={1} />
 
 export default ActionBar;

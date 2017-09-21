@@ -23,6 +23,12 @@ class Person extends React.Component {
 
     return (
       <div>
+        <div className="betchips">
+          {this.props.bet !== 0 && <img id="chips1" src="images/chip0005.png"/>}
+          {this.props.bet !== 0 && <img id="chips2" src="images/chip0005.png"/>}
+          {this.props.bet !== 0 && <img id="chips3" src="images/chip0005.png"/>}
+          {this.props.bet !== 0 && <img id="chips4" src="images/chip0005.png"/>}
+        </div>
         <div className="transbox" hidden={!this.props.seated}>
           <p>{this.props.bet}</p>
         </div>
