@@ -54,7 +54,11 @@ class App extends Component {
         top: '70%',
         width: '0%'
       },
-      sliderMax: 100
+      sliderMax: 100,
+      seated1: false,
+      seated2: false,
+      seated3: false,
+      seated4: false
     };
 
     this.deckInstance = null;
@@ -108,8 +112,13 @@ class App extends Component {
 
         instance.SendStack().watch((err, event) => {
           this.setState({
-            ['stack' + (event.args.seat.toNumber() + 1)]: event.args.chips.toNumber()
+            ['stack' + (event.args.seat.toNumber() + 1)]: event.args.chips.toNumber(),
+            ['seated' + (event.args.seat.toNumber() + 1)]: true
           });
+
+          if(event.args.chips.toNumber() === 0) {
+            this.setState({['seated' + (event.args.seat.toNumber() + 1)]: false})
+          }
         });
 
         instance.Deal().watch((err, event) => {
@@ -344,6 +353,7 @@ class App extends Component {
             stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} 
             bet1={this.state.bet1} bet2={this.state.bet2} bet3={this.state.bet3} bet4={this.state.bet4}
             pot={this.state.pot}
+            seated1={this.state.seated1} seated2={this.state.seated2} seated3={this.state.seated3} seated4={this.state.seated4}
             />
           <div className="action">
             <ActionBar sliderMax={this.sliderMax} bet={() => this.bet(false)} fold={this.fold}/>
