@@ -64,6 +64,7 @@ class App extends Component {
     this.deckInstance = null;
     this.mySeat = -1;
     this.myCurrentBet = 0;
+    this.amountToCall = 0;
     this.dotLocation = {0: {position: 'fixed', width:'5%', left: '63%', top: '35%'},
                         1: {position: 'fixed', width:'5%', left: '39%', top: '70%'},
                         2: {position: 'fixed', width:'5%', left: '26%', top: '70%'},
@@ -77,6 +78,7 @@ class App extends Component {
     this.bet = this.bet.bind(this);
     this.notTurn = this.notTurn.bind(this);
     this.fold = this.fold.bind(this);
+    this.allIn = this.allIn.bind(this);
 
   }
 
@@ -157,17 +159,35 @@ class App extends Component {
   }
 
   updatePlayerBets() {
+    this.amountToCall = 0;
+
     this.deckInstance.getCurrentPlayerBet(0).then((result) => {
-      this.setState({bet1: result.toNumber()})
-      console.log(result);
+      this.setState({bet1: result.toNumber()});
+      if(this.amountToCall < result.toNumber()) this.amountToCall = result.toNumber();
     });
-    this.deckInstance.getCurrentPlayerBet(1).then((result) => this.setState({bet2: result.toNumber()}));
-    this.deckInstance.getCurrentPlayerBet(2).then((result) => this.setState({bet3: result.toNumber()}));
-    this.deckInstance.getCurrentPlayerBet(3).then((result) => this.setState({bet4: result.toNumber()}));
+    this.deckInstance.getCurrentPlayerBet(1).then((result) => {
+      this.setState({bet2: result.toNumber()});
+      if(this.amountToCall < result.toNumber()) this.amountToCall = result.toNumber();
+    });
+    this.deckInstance.getCurrentPlayerBet(2).then((result) => {
+      this.setState({bet3: result.toNumber()});
+      if(this.amountToCall < result.toNumber()) this.amountToCall = result.toNumber();
+    });
+    this.deckInstance.getCurrentPlayerBet(3).then((result) => {
+      this.setState({bet4: result.toNumber()});
+      if(this.amountToCall < result.toNumber()) this.amountToCall = result.toNumber();
+    });
 
     this.deckInstance.getCurrentPlayerBet(this.mySeat).then((result) => this.myCurrentBet = result.toNumber());
 
-    this.deckInstance.getCurrentPotSize().then((result) => this.setState({pot: result.toNumber()}))
+    this.deckInstance.getCurrentPotSize().then((result) => {
+      this.setState({pot: result.toNumber()});
+
+      if(result.toNumber() > 0) {
+        $("#call_button").text("CALL");
+        $("#bet_button").text("RAISE");
+      }
+    });
 
   }
 
@@ -229,56 +249,58 @@ class App extends Component {
   }
 
   deal(){
-    // this.deckInstance.initGame({gas: 40000000}).then(() => {
-      this.deckInstance.playerActive(0).then((bactive) => {
-        var active = bactive.toNumber();
-        if(this.mySeat === 0 && active === 2) {
-          this.setState({seat1: 'nobus/flipside.png'});
-        } else if(active === 2) {
-          this.deckInstance.getCard(0).then((result) => this.setState({seat1: 'nobus/' + result + '.png' }));
-        } else if(active === 1) {
-          this.deckInstance.getCard(0).then((result) => this.setState({seat1: 'nobus/' + result + '.png' }));
+    $("#call_button").text("CHECK");
+    $("#bet_button").text("BET");
+  // this.deckInstance.initGame({gas: 40000000}).then(() => {
+    this.deckInstance.playerActive(0).then((bactive) => {
+      var active = bactive.toNumber();
+      if(this.mySeat === 0 && active === 2) {
+        this.setState({seat1: 'nobus/flipside.png'});
+      } else if(active === 2) {
+        this.deckInstance.getCard(0).then((result) => this.setState({seat1: 'nobus/' + result + '.png' }));
+      } else if(active === 1) {
+        this.deckInstance.getCard(0).then((result) => this.setState({seat1: 'nobus/' + result + '.png' }));
 
-        } else {
-          this.setState({seat1: 'nobus/blank.png' });
-        }
-      })
+      } else {
+        this.setState({seat1: 'nobus/blank.png' });
+      }
+    })
 
-      this.deckInstance.playerActive(1).then((bactive) => {
-        var active = bactive.toNumber();
-        if(this.mySeat === 1 && active === 2) {
-          this.setState({seat2: 'nobus/flipside.png'});
-        } else if(active === 2) {
-          this.deckInstance.getCard(1).then((result) => {
-            this.setState({seat2: 'nobus/' + result + '.png' });
-            console.log(result)
-          })
-        } else {
-          this.setState({seat2: 'nobus/blank.png'});
-        }
-      })
+    this.deckInstance.playerActive(1).then((bactive) => {
+      var active = bactive.toNumber();
+      if(this.mySeat === 1 && active === 2) {
+        this.setState({seat2: 'nobus/flipside.png'});
+      } else if(active === 2) {
+        this.deckInstance.getCard(1).then((result) => {
+          this.setState({seat2: 'nobus/' + result + '.png' });
+          console.log(result)
+        })
+      } else {
+        this.setState({seat2: 'nobus/blank.png'});
+      }
+    })
 
-      this.deckInstance.playerActive(2).then((bactive) => {
-        var active = bactive.toNumber();
-        if(this.mySeat === 2 && active === 2) {
-          this.setState({seat3: 'nobus/flipside.png'});
-        } else if(active === 2) {
-          this.deckInstance.getCard(2).then((result) => this.setState({seat3: 'nobus/' + result + '.png' }));
-        } else {
-          this.setState({seat3: 'nobus/blank.png'});
-        }
-      })
+    this.deckInstance.playerActive(2).then((bactive) => {
+      var active = bactive.toNumber();
+      if(this.mySeat === 2 && active === 2) {
+        this.setState({seat3: 'nobus/flipside.png'});
+      } else if(active === 2) {
+        this.deckInstance.getCard(2).then((result) => this.setState({seat3: 'nobus/' + result + '.png' }));
+      } else {
+        this.setState({seat3: 'nobus/blank.png'});
+      }
+    })
 
-      this.deckInstance.playerActive(3).then((bactive) => {
-        var active = bactive.toNumber();
-        if(this.mySeat === 3 && active === 2) {
-          this.setState({seat4: 'nobus/flipside.png'});
-        } else if(active === 2) {
-          this.deckInstance.getCard(3).then((result) => this.setState({seat4: 'nobus/' + result + '.png' }));
-        } else {
-          this.setState({seat4: 'nobus/blank.png'});
-        }
-      })
+    this.deckInstance.playerActive(3).then((bactive) => {
+      var active = bactive.toNumber();
+      if(this.mySeat === 3 && active === 2) {
+        this.setState({seat4: 'nobus/flipside.png'});
+      } else if(active === 2) {
+        this.deckInstance.getCard(3).then((result) => this.setState({seat4: 'nobus/' + result + '.png' }));
+      } else {
+        this.setState({seat4: 'nobus/blank.png'});
+      }
+    })
     //})
   }
 
@@ -317,6 +339,20 @@ class App extends Component {
    }
   }
 
+  allIn() {
+    if(this.mySeat === this.state.action) {
+
+      var chips = eval(['stack' + this.mySeat])
+
+      var raise = this.state[chips] + this.myCurrentBet > this.amountToCall;
+
+      this.deckInstance.bet(this.state[chips], this.mySeat, raise, {gas: 4000000});
+      this.deckInstance.nextToAction();
+    } else {
+      this.notTurn();
+    }
+  }
+
   notTurn() {
     console.log('Not your turn. Its ' + this.state.action + ' and your ' + this.mySeat );
   }
@@ -339,6 +375,8 @@ class App extends Component {
 
     let actionDot = this.state.actionDot;
 
+    let log = function(s){console.log(s)};
+
     return (
 
       <MuiThemeProvider>
@@ -352,11 +390,11 @@ class App extends Component {
             seat1={this.state.seat1} seat2={this.state.seat2} seat3={this.state.seat3} seat4={this.state.seat4}
             stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} 
             bet1={this.state.bet1} bet2={this.state.bet2} bet3={this.state.bet3} bet4={this.state.bet4}
-            pot={this.state.pot}
+            pot={this.state.pot} takeSeat={(s) => this.takeSeat(s)}
             seated1={this.state.seated1} seated2={this.state.seated2} seated3={this.state.seated3} seated4={this.state.seated4}
             />
           <div className="action">
-            <ActionBar sliderMax={this.sliderMax} bet={() => this.bet(false)} fold={this.fold}/>
+            <ActionBar sliderMax={this.sliderMax} bet={() => this.bet(false)} fold={this.fold} allIn={this.allIn}/>
           </div>
 
           <div id="chatbox">

@@ -29,7 +29,9 @@ class Person extends React.Component {
         <div className="transbox" hidden={!this.props.seated}>
           <p>{this.props.bet}</p>
         </div>
-        <img id="emptyseat" src="images/seat_empty.png" hidden={this.props.seated} style={this.props.styles}/>
+        <img id="emptyseat" src="images/seat_empty.png" hidden={this.props.seated} style={this.props.styles}
+          onClick={() => this.props.takeSeat(this.props.seatNum)}
+        />
 
         <div className="playercontainer" hidden={!this.props.seated}>
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
