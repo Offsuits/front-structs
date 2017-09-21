@@ -30,6 +30,11 @@ body {
   z-index: -1;
 }
 
+.hidden {
+  height: 0%;
+  width: 0%;
+}
+
 .seats {
   position: relative;
   width: 100%;
