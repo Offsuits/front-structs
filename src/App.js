@@ -3,6 +3,7 @@ import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
 import DeckContract from '../build/contracts/Deck.json'
 import getWeb3 from './utils/getWeb3'
 import Table from './components/Table.jsx';
+import ActionBar from './components/ActionBar.jsx';
 import Chatbox from './components/Chatbox.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
