@@ -8,7 +8,7 @@ body {
   margin:0;
   padding:0;
   height:100%;
-  background-color: black;
+  background-color: white;
 }
 
 #app { height: 100% }
@@ -190,7 +190,7 @@ body {
 .action {
   background-color: black;
   position: absolute;
-  width: 74.95%;
+  width: 75%;
   height: 25%;
   top: 75%;
 }

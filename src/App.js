@@ -16,7 +16,6 @@ import './css/pure-min.css'
 import './App.css'
 
 
-
 const contract = require('truffle-contract')
 const simpleStorage = contract(SimpleStorageContract)
 const deck = contract(DeckContract)
@@ -59,6 +58,7 @@ class App extends Component {
       seated2: false,
       seated3: false,
       seated4: false,
+      max: 1,
       dealerButton: {height: '3%', position: 'fixed', top: '33%', left: '51%'}
     };
 
@@ -128,6 +128,10 @@ class App extends Component {
 
           if(event.args.chips.toNumber() === 0) {
             this.setState({['seated' + (event.args.seat.toNumber() + 1)]: false})
+          }
+
+          if(event.args.seat.toNumber() === this.mySeat) {
+            this.setState({max: event.args.chips.toNumber()});
           }
         });
 
@@ -402,9 +406,9 @@ class App extends Component {
             bet1={this.state.bet1} bet2={this.state.bet2} bet3={this.state.bet3} bet4={this.state.bet4}
             pot={this.state.pot} takeSeat={(s) => this.takeSeat(s)}
             seated1={this.state.seated1} seated2={this.state.seated2} seated3={this.state.seated3} seated4={this.state.seated4}
-            />
+          />
           <div className="action">
-            <ActionBar sliderMax={this.sliderMax} bet={() => this.bet(false)} fold={this.fold} allIn={this.allIn}/>
+            <ActionBar sliderMax={this.sliderMax} bet={() => this.bet(false)} fold={this.fold} allIn={this.allIn} stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} max={this.state.max}  />
           </div>
 
 
