@@ -318,9 +318,9 @@ class App extends Component {
     })
   }
 
-  bet(raise) {
+  bet(raise, amount) {
     if(this.mySeat === this.state.action){
-      this.deckInstance.bet(20, this.mySeat, raise, {gas: 4000000});
+      this.deckInstance.bet(amount, this.mySeat, raise, {gas: 4000000});
       this.deckInstance.nextToAction();
     } else {
       this.notTurn();
