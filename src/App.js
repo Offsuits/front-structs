@@ -16,7 +16,6 @@ import './css/pure-min.css'
 import './App.css'
 
 
-
 const contract = require('truffle-contract')
 const simpleStorage = contract(SimpleStorageContract)
 const deck = contract(DeckContract)
