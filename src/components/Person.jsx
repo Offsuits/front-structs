@@ -23,9 +23,6 @@ class Person extends React.Component {
 
     return (
       <div>
-        <div id="dealer_chip">
-          {this.props.dealer && <img id="dealer" src="images/dealerchip.png" style={styles.dealer}/>}
-        </div>
         <div className="transbox" hidden={!this.props.seated}>
           <p>{this.props.bet}</p>
         </div>
