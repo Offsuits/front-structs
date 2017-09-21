@@ -3,7 +3,6 @@ import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
 import DeckContract from '../build/contracts/Deck.json'
 import getWeb3 from './utils/getWeb3'
 import Table from './components/Table.jsx';
-import ActionBar from './components/ActionBar.jsx';
 import Chatbox from './components/Chatbox.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
@@ -35,11 +34,11 @@ class App extends Component {
       seat2: 'nobus/blank.png',
       seat3: 'nobus/blank.png',
       seat4: 'nobus/blank.png',
-      stack1: 1000,
-      stack2: 1000,
-      stack3: 1000,
-      stack4: 1000,
-      bet1: 20,
+      stack1: 0,
+      stack2: 0,
+      stack3: 0,
+      stack4: 0,
+      bet1: 0,
       bet2: 0,
       bet3: 0,
       bet4: 0,
@@ -404,12 +403,9 @@ class App extends Component {
             seated1={this.state.seated1} seated2={this.state.seated2} seated3={this.state.seated3} seated4={this.state.seated4}
             />
           <div className="action">
-<<<<<<< HEAD
             <ActionBar sliderMax={this.sliderMax} bet={() => this.bet(false)} fold={this.fold} allIn={this.allIn}/>
-=======
-            <ActionBar bet={() => this.bet(false)} fold={this.fold} stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} act1={this.state.action === this.mySeat} act2={this.state.action === this.mySeat} act3={this.state.action === this.mySeat} act4={this.state.action === this.mySeat}/>
->>>>>>> Refactor front end components
           </div>
+
 
           <div id="chatbox">
             <div className="App">

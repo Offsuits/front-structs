@@ -1,4 +1,5 @@
 import React from 'react';
+import ActionBar from './ActionBar.jsx';
 
 class Person extends React.Component {
 
@@ -41,6 +42,9 @@ class Person extends React.Component {
           <div id="chipcount">
             {this.props.stack}
           </div>
+        </div>
+        <div className="action">
+          <ActionBar stack={this.props.stack}/>
         </div>
       </div>
     )

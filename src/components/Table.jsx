@@ -7,7 +7,7 @@ class Table extends React.Component {
     super(props);
     this.state = {
       dealer: 3,
-      pot: 20,
+      pot: 0,
       active: [true, true, true, true],
       show: false,
       name1: 'Easakfish',
