@@ -195,19 +195,19 @@ class App extends Component {
 
     this.deckInstance.getCurrentPlayerBet(0).then((result) => {
       this.setState({bet1: result.toNumber()});
-      if(this.state.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
+      if(this.state.amountToCall < result.toNumber() - this.myCurrentBet) this.setState({amountToCall: result.toNumber() - this.myCurrentBet});
     });
     this.deckInstance.getCurrentPlayerBet(1).then((result) => {
       this.setState({bet2: result.toNumber()});
-      if(this.state.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
+      if(this.state.amountToCall < result.toNumber() - this.myCurrentBet) this.setState({amountToCall: result.toNumber() - this.myCurrentBet});
     });
     this.deckInstance.getCurrentPlayerBet(2).then((result) => {
       this.setState({bet3: result.toNumber()});
-      if(this.state.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
+      if(this.state.amountToCall < result.toNumber() - this.myCurrentBet) this.setState({amountToCall: result.toNumber() - this.myCurrentBet});
     });
     this.deckInstance.getCurrentPlayerBet(3).then((result) => {
       this.setState({bet4: result.toNumber()});
-      if(this.state.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
+      if(this.state.amountToCall < result.toNumber() - this.myCurrentBet) this.setState({amountToCall: result.toNumber() - this.myCurrentBet});
     });
 
     this.deckInstance.getCurrentPlayerBet(this.mySeat).then((result) => this.myCurrentBet = result.toNumber());
@@ -437,7 +437,7 @@ class App extends Component {
           </div>
 
 
-          <div id="chatbox" hidden="true">
+          <div id="chatbox">
             <div className="App">
               <main className="container">
                 <div className="pure-g">
