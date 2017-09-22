@@ -7,7 +7,7 @@ class ActionBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      slider: 0
+      slider: 20
     }
 
     this.handleSlider = this.handleSlider.bind(this);
@@ -16,7 +16,6 @@ class ActionBar extends React.Component {
 
   handleSlider(event, value) {
     event.preventDefault();
-    console.log(value);
     this.setState({slider: value});
   }
 
@@ -30,7 +29,7 @@ class ActionBar extends React.Component {
 
     return (
       <div>
-        <Slider id="range" value={this.state.slider} onChange={this.handleSlider.bind(this)} min={this.props.sliderMin} max={this.props.sliderMax} step={1} />
+        <Slider id="range" value={this.props.sliderMin} onChange={this.handleSlider.bind(this)} min={this.props.sliderMin} max={this.props.sliderMax} step={1} />
         <div id="call_button" onClick={() => this.props.bet(false)}>CHECK<br/>()</div>
         <div id="bet_button" onClick={this.sendBet}>BET<br/>()</div>
         <div id="raise_button" onClick={this.props.allIn}>ALL IN<br/> </div>

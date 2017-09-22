@@ -162,6 +162,7 @@ class App extends Component {
           this.setState({action: turn});
           this.setState({actionDot: this.dotLocation[turn]});
           if(turn === 101) {
+            console.log('ture')
             this.winner();
           } else {
             this.updatePlayerBets();
@@ -341,7 +342,6 @@ class App extends Component {
   }
 
   bet(raise, amount) {
-    console.log(amount);
     if(amount === undefined) amount = this.state.amountToCall;
     if(this.mySeat === this.state.action){
       this.deckInstance.bet(amount, this.mySeat, raise, {gas: 400000000});
@@ -422,7 +422,7 @@ class App extends Component {
 
           <img src="action.png" style={actionDot}/>
           <img id="dealer" src="images/dealerchip.png" style={this.state.dealerButton}/>
-          <button id="deal_button" hidden={this.state.dealHidden} onClick={this.shuffle}>>DEAL</button>
+          <button id="deal_button" hidden={this.state.dealHidden} onClick={this.shuffle}>DEAL</button>
 
           <Table id="table"
             active1={this.state.active1} active2={this.state.active2} active3={this.state.active3} active4={this.state.active4}
@@ -433,11 +433,11 @@ class App extends Component {
             seated1={this.state.seated1} seated2={this.state.seated2} seated3={this.state.seated3} seated4={this.state.seated4}
           />
           <div className="action">
-            <ActionBar sliderMin={this.state.amountToCall} sliderMax={this.state.max} bet={(a, b) => this.bet(a, b)} fold={this.fold} allIn={this.allIn} stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} max={this.state.max}  />
+            <ActionBar sliderMin={this.state.amountToCall - this.myCurrentBet} sliderMax={this.state.max} bet={(a, b) => this.bet(a, b)} fold={this.fold} allIn={this.allIn} stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} max={this.state.max}  />
           </div>
 
 
-          <div id="chatbox">
+          <div id="chatbox" hidden="true">
             <div className="App">
               <main className="container">
                 <div className="pure-g">
