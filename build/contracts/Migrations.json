@@ -520,8 +520,8 @@
     "1505958356704": {
       "events": {},
       "links": {},
-      "address": "0x1401d4c1ce82cd6641970f1157c210f8642e3c01",
-      "updated_at": 1506030213981
+      "address": "0x96a19bda5965f231b75aacad56d8fbea475ff218",
+      "updated_at": 1506048113000
     },
     "1506027208400": {
       "events": {},
@@ -531,5 +531,5 @@
     }
   },
   "schema_version": "0.0.5",
-  "updated_at": 1506030213981
+  "updated_at": 1506048113000
 }
