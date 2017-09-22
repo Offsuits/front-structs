@@ -184,9 +184,9 @@ class App extends Component {
 
 
     this.deckInstance.getPlayerStack(0).then((result) => this.setState({stack1: result.toNumber()}));
-    this.deckInstance.getPlayerStack(0).then((result) => this.setState({stack1: result.toNumber()}));
-    this.deckInstance.getPlayerStack(0).then((result) => this.setState({stack1: result.toNumber()}));
-    this.deckInstance.getPlayerStack(0).then((result) => this.setState({stack1: result.toNumber()}));
+    this.deckInstance.getPlayerStack(1).then((result) => this.setState({stack2: result.toNumber()}));
+    this.deckInstance.getPlayerStack(2).then((result) => this.setState({stack3: result.toNumber()}));
+    this.deckInstance.getPlayerStack(3).then((result) => this.setState({stack4: result.toNumber()}));
   }
 
   updatePlayerBets() {
@@ -194,19 +194,19 @@ class App extends Component {
 
     this.deckInstance.getCurrentPlayerBet(0).then((result) => {
       this.setState({bet1: result.toNumber()});
-      if(this.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
+      if(this.state.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
     });
     this.deckInstance.getCurrentPlayerBet(1).then((result) => {
       this.setState({bet2: result.toNumber()});
-      if(this.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
+      if(this.state.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
     });
     this.deckInstance.getCurrentPlayerBet(2).then((result) => {
       this.setState({bet3: result.toNumber()});
-      if(this.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
+      if(this.state.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
     });
     this.deckInstance.getCurrentPlayerBet(3).then((result) => {
       this.setState({bet4: result.toNumber()});
-      if(this.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
+      if(this.state.amountToCall < result.toNumber()) this.setState({amountToCall: result.toNumber()});
     });
 
     this.deckInstance.getCurrentPlayerBet(this.mySeat).then((result) => this.myCurrentBet = result.toNumber());
@@ -225,6 +225,7 @@ class App extends Component {
     if(seat !== -1){
       this.deckInstance.sitDown(seat, 1000);
       this.mySeat = seat;
+      this.setState({max: 1000});
     } else {
 
       if(this.mySeat !== -1){
@@ -341,7 +342,7 @@ class App extends Component {
 
   bet(raise, amount) {
     console.log(amount);
-    if(amount === undefined) amount = this.amountToCall;
+    if(amount === undefined) amount = this.state.amountToCall;
     if(this.mySeat === this.state.action){
       this.deckInstance.bet(amount, this.mySeat, raise, {gas: 400000000});
       this.deckInstance.nextToAction({gas: 400000000});
@@ -432,11 +433,11 @@ class App extends Component {
             seated1={this.state.seated1} seated2={this.state.seated2} seated3={this.state.seated3} seated4={this.state.seated4}
           />
           <div className="action">
-            <ActionBar sliderMin={this.amountToCall} sliderMax={this.state.max} bet={(a, b) => this.bet(a, b)} fold={this.fold} allIn={this.allIn} stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} max={this.state.max}  />
+            <ActionBar sliderMin={this.state.amountToCall} sliderMax={this.state.max} bet={(a, b) => this.bet(a, b)} fold={this.fold} allIn={this.allIn} stack1={this.state.stack1} stack2={this.state.stack2} stack3={this.state.stack3} stack4={this.state.stack4} max={this.state.max}  />
           </div>
 
 
-          <div id="chatbox" hidden="true">
+          <div id="chatbox">
             <div className="App">
               <main className="container">
                 <div className="pure-g">
