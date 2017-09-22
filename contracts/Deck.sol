@@ -47,8 +47,16 @@ contract Deck {
         return game.action;
     }
 
+    function getPlayerStack(int index) constant returns(int) {
+        return players[index].chips;
+    }
+
+    function getPlayerStatus(int index) constant returns(int8) {
+        return players[index].active;
+    }
+
     function sitDown(int seat, int chips) {
-        players[seat].active = 2;
+        players[seat].active = 3;
         players[seat].chips = chips;
         SendStack(players[seat].chips, seat);
     }
@@ -68,7 +76,7 @@ contract Deck {
         var next = [1,2,3,0];
 
         for(var i = 0; i < 4; i++) {
-            if(players[i].active == 1) {
+            if(players[i].active == 1 || players[i].active == 3) {
                 players[i].active = 2;
             }
         }
